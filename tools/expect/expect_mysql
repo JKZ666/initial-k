@@ -1,0 +1,9 @@
+#!/usr/bin/expect
+set timeout 5
+spawn mysql -h 192.168.1.250 -u boss -p -e "show databases;" mysql
+expect "*password*"
+send "passwd\r"
+set result [ wait result]
+puts $result
+log_file log.txt
+interact
