@@ -39,7 +39,7 @@ def calculate_ack_seq(data_pool):
     for i in range(len(seq_list)-1):
         # 判断下一个seq是否等于此seq的num加1，如果不是，则跳出for循环，ack_seq等于此seq的num加1
         if seq_list[i+1] != seq_list[i] + 1:
-            print seq_list[i+1], seq_list[i]
+            print(seq_list[i+1], seq_list[i])
             ack_seq = seq_list[i]+1
             break
         else:
@@ -64,27 +64,26 @@ def udp_srv_main():
         data_seq = data[0]
         data_pool.append(data)
         # udpSerSock.sendto('[%s] %s' % (time.ctime(), data), addr)
-        print time.ctime(), ":", data
+        print(time.ctime(), ":", data)
         # print '...received from and retuned to:', addr
         time.sleep(2)
         curent_time = time.time()
-        print curent_time
-        print init_time
+        print("curent time: {0:.2f}, init time: {1:.2f}".format(curent_time, init_time))
         while len(data_pool) == 9 or (time.time()-init_time) > 3:  # 数据包达到一定数量或时间？
             # 去重
             data_pool_set = list(set(data_pool))
             # 排序
             data_pool_sorted = sorted(data_pool_set, key=lambda d: int(d[:4]))
-            print "list set:", data_pool_set
-            print "list sort:", data_pool_sorted
-            udpSerSock.sendto('[%s] %s' % (time.ctime(), data), addr)
+            print("list set: {0}, list sort: {1}".format(data_pool_set, data_pool_sorted))
+            udpSerSock.sendto("[{0}] {1}".format(time.ctime(), data).encode('utf-8'), addr)
+
             data_pool = []
             init_time = curent_time
     udpSerSock.close()
 
 if __name__ == "__main__":
-    test = [0002, 0003, 0004, 0005]
+    test = [0o002, 0o003, 0o004, 0o005]
     # calculate_ack_seq(data_pool=test)
-    print time.time()
+    print(time.ctime())
     udp_srv_main()
 

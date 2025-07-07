@@ -23,11 +23,11 @@ while True:
     data = str(num).zfill(4)
     if not data:
         break
-    udpCliSock.sendto(data, ADDR)
+    udpCliSock.sendto(data.encode('utf-8'), ADDR)
     # data, ADDR = udpCliSock.recvfrom(BUFSIZE)
     if not data:
         break
-    print data
+    print(data)
     num += 1
     time.sleep(3)
 
